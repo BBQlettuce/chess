@@ -6,11 +6,7 @@ class Chessboard
 
   def initialize
     @board = Array.new(8) {Array.new(8)}
-    @pieces = pieces
-
-  end
-
-  def generate_new_board
+    #@pieces = pieces
 
   end
 
@@ -65,5 +61,32 @@ class Chessboard
     row, col = pos
     board[row][col]
   end
+
+  def []=(pos, piece)
+    row, col = pos
+    board[row][col] = piece
+  end
+
+  def generate_new_board
+    #populates board with pieces
+    place_pawns
+    place_rooks
+    place_knights
+    place_bishops
+    place_queens
+    place_kings
+    color_pieces
+  end
+
+  def place_pawns
+    [1,6].each do |row|
+      (0..7).each do |col|
+        board[[row,col]] = Pawn.new([row,col])
+      end
+    end
+  end
+
+
+
 
 end

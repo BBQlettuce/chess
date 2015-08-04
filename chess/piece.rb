@@ -3,11 +3,11 @@ class Piece
   attr_reader :board, :color
   attr_accessor :moves, :pos
 
-  def initialize(pos, color, board)
-    @board = board
-    @moves = moves
+  def initialize(pos)
+    #@board = board
+    #@moves = moves
     @pos = pos
-    @color = color
+    #@color = color
   end
 
   def moves(pos)
@@ -19,7 +19,7 @@ class Piece
   end
 
   def move_into_check?(pos)
-  
+
   end
 
 
@@ -120,7 +120,7 @@ class Pawn < Piece
     moves = []
     case color
     when white
-      if board.available?(([pos[0] + WHITE_DIR, pos[1]))
+      if board.available?([pos[0] + WHITE_DIR, pos[1]])
         moves << [pos[0] + WHITE_DIR, pos[1]]
       end
       DIAG_MOVES.each do |diag|
@@ -131,7 +131,7 @@ class Pawn < Piece
         end
       end
     else
-      if board.available?(([pos[0] + BLACK_DIR, pos[1]))
+      if board.available?([pos[0] + BLACK_DIR, pos[1]])
         moves << [pos[0] + BLACK_DIR, pos[1]]
       end
       DIAG_MOVES.each do |diag|
