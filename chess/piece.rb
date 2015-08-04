@@ -1,6 +1,6 @@
 class Piece
 
-  attr_reader :board
+  attr_reader :board, :color
   attr_accessor :moves
 
   def initialize(pos, color, board)
@@ -31,13 +31,19 @@ class SlidingPiece < Piece
     moves = []
     move_dirs.each do |(x,y)|
       # until we hit another Piece (value isnt nil) or go off the board
-
       new_x = pos[0] + x
       new_y = pos[1] + y
-      until !new_x.between?(0,7) || !new_y.between?(0,7)
-        moves << [new_x, new_y]
+      next_pos = [new_x, new_y]
+      until board.occupied?(next_pos) || !Chessboard.in_board?(next_pos)
+        moves << next_pos
         new_x += x
         new_y += y
+        next_pos = [new_x, new_y]
+      end
+      if Chessboard.in_board?(next_pos) &&
+          board.occupied?(next_pos) &&
+          board[[next_pos]].color != color
+        moves << next_pos
       end
     end
     self.moves = moves
@@ -53,11 +59,19 @@ class SteppingPiece < Piece
     [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
 
   def moves(pos)
+    moves = []
     move_dirs.each do |(x,y)|
       new_x = pos[0] + x
       new_y = pos[1] + y
-      moves << [new_x, new_y] if new_x.between?(0,7) && new_y.between?(0,7)
+      next_pos = [new_x, new_y]
+      if Chessboard.in_board?(next_pos)
+        if (board.occupied?(next_pos) && board[[next_pos]].color != color) ||
+            !board.occupied?(next_pos)
+          moves << next_pos
+        end
+      end
     end
+    self.moves = moves
   end
 
 end

@@ -11,12 +11,12 @@ class Chessboard
 
   end
 
-  def in_board?(pos)
+  def self.in_board?(pos)
     pos.all?{|position| position.between?(0, 7)}
   end
 
   def occupied?(pos)
-    board[pos].nil?
+    !board[pos].nil?
   end
 
   def [](pos)
