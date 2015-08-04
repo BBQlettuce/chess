@@ -2,12 +2,13 @@ require_relative 'piece'
 
 class Chessboard
 
-  attr_reader :board
+  attr_accessor :board, :pieces
 
   def initialize
     @board = Array.new(8) {Array.new(8)}
     @pieces = []
     generate_new_board
+    pass_board_to_pieces
   end
 
   def move(start_pos, end_pos)
@@ -19,12 +20,8 @@ class Chessboard
     unless current_piece.moves.include?(end_pos)
       raise "Invalid move"
     end
-
     # move piece
     current_piece.pos = end_pos
-
-    # get piece at start pos, and see if moves contain end_pos
-    # raise exception if invalid
   end
 
   def in_check?(color)
@@ -67,6 +64,22 @@ class Chessboard
     board[row][col] = piece
   end
 
+  def render
+    board.each do |row|
+      row.each do |cell|
+        if cell.nil?
+          print " _ "
+        else
+          print " #{cell.to_s} "
+        end
+      end
+      print "\n"
+    end
+  end
+
+
+  private
+
   def generate_new_board
     #populates board with pieces
     place_pawns
@@ -76,7 +89,6 @@ class Chessboard
     place_queens
     place_kings
     color_pieces
-    pass_board_to_piece
   end
 
   def place_pawns
@@ -135,5 +147,14 @@ class Chessboard
       end
     end
   end
+
+  def pass_board_to_pieces
+    pieces.each do |piece|
+      piece.board = self
+    end
+  end
+end
+
+if __FILE__ == $PROGRAM_NAME
 
 end

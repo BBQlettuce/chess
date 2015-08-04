@@ -1,10 +1,12 @@
+require 'colorize'
+
 class Piece
 
   attr_accessor :moves, :pos, :color, :board
 
   def initialize(pos)
     @pos = pos
-    @board = nil
+    #@board = nil
     #@moves = nil
     @color = nil
   end
@@ -12,9 +14,9 @@ class Piece
   def moves(pos)
   end
 
-  def valid_move(end_pos, board)
+  def valid_move(end_pos)
     valid_moves = moves.select do |move|
-      !move_into_check?(move, board)
+      !move_into_check?(move)
     end
     @moves = valid_moves
   end
@@ -23,15 +25,17 @@ class Piece
     board.map{|el| el.is_a?(Array) ? dup_board(el) : el}
   end
 
-  def move_into_check?(pos, board)
+  def move_into_check?(pos)
     board_dup = dup_board(board)
     board_dup.move(pos, end_pos)
     !board_dup.in_check(color)
   end
 
-  # def color=(color)
-  #   @color = color
-  # end
+  def to_s
+    appearance.colorize(color)
+  end
+
+
 
 end
 
@@ -88,6 +92,10 @@ end
 
 class Bishop < SlidingPiece
 
+  def appearance
+    "B"
+  end
+
   def move_dirs
     DIAGONALS
   end
@@ -95,9 +103,11 @@ class Bishop < SlidingPiece
 end
 
 class Rook < SlidingPiece
-  # def initialize(pos, color = nil)
-  #   super(pos, color)
-  # end
+
+  def appearance
+    "R"
+  end
+
   def move_dirs
     VERTICALS
   end
@@ -106,6 +116,10 @@ end
 
 class Queen < SlidingPiece
 
+  def appearance
+    "Q"
+  end
+
   def move_dirs
     VERTICALS + DIAGONALS
   end
@@ -113,18 +127,33 @@ class Queen < SlidingPiece
 end
 
 class Knight < SteppingPiece
+
+  def appearance
+    "N"
+  end
+
   def move_dirs
     KNIGHT_STEPS
   end
 end
 
 class King < SteppingPiece
+
+  def appearance
+    "K"
+  end
+
   def move_dirs
     KING_STEPS
   end
 end
 
 class Pawn < Piece
+
+  def appearance
+    "P"
+  end
+
   DIAG_MOVES = [1, -1]
   WHITE_DIR = -1
   BLACK_DIR = 1
