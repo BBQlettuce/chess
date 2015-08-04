@@ -1,7 +1,7 @@
 class Piece
 
   attr_reader :board, :color
-  attr_accessor :moves
+  attr_accessor :moves, :pos
 
   def initialize(pos, color, board)
     @board = board
@@ -34,15 +34,14 @@ class SlidingPiece < Piece
       new_x = pos[0] + x
       new_y = pos[1] + y
       next_pos = [new_x, new_y]
-      until board.occupied?(next_pos) || !Chessboard.in_board?(next_pos)
+      until !board.available?(next_pos)
         moves << next_pos
         new_x += x
         new_y += y
         next_pos = [new_x, new_y]
       end
       if Chessboard.in_board?(next_pos) &&
-          board.occupied?(next_pos) &&
-          board[[next_pos]].color != color
+          board.occupied_by_enemy?(next_pos, color)
         moves << next_pos
       end
     end
@@ -64,11 +63,8 @@ class SteppingPiece < Piece
       new_x = pos[0] + x
       new_y = pos[1] + y
       next_pos = [new_x, new_y]
-      if Chessboard.in_board?(next_pos)
-        if (board.occupied?(next_pos) && board[[next_pos]].color != color) ||
-            !board.occupied?(next_pos)
-          moves << next_pos
-        end
+      if board.available?(next_pos) || board.occupied_by_enemy?(next_pos, color)
+        moves << next_pos
       end
     end
     self.moves = moves
@@ -108,4 +104,42 @@ class Knight < SteppingPiece
 end
 
 class King < SteppingPiece
+  def move_dirs
+    KING_STEPS
+  end
+end
+
+class Pawn < Piece
+  DIAG_MOVES = [1, -1]
+  WHITE_DIR = -1
+  BLACK_DIR = 1
+  def moves
+    moves = []
+    case color
+    when white
+      if board.available?(([pos[0] + WHITE_DIR, pos[1]))
+        moves << [pos[0] + WHITE_DIR, pos[1]]
+      end
+      DIAG_MOVES.each do |diag|
+        diag_move = [pos[0] + WHITE_DIR, pos[1] + diag]
+        if Chessboard.in_board?(diag_move) &&
+            board.occupied_by_enemy?(diag_move, color)
+          moves << diag_move
+        end
+      end
+    else
+      if board.available?(([pos[0] + BLACK_DIR, pos[1]))
+        moves << [pos[0] + BLACK_DIR, pos[1]]
+      end
+      DIAG_MOVES.each do |diag|
+        diag_move = [pos[0] + BLACK_DIR, pos[1] + diag]
+        if Chessboard.in_board?(diag_move) &&
+            board.occupied_by_enemy?(diag_move, color)
+          moves << diag_move
+        end
+      end
+    end
+    self.moves = moves
+  end
+
 end
