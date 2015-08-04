@@ -12,8 +12,35 @@ class Chessboard
 
   end
 
-  def in_check(color)
+  def move(start_pos, end_pos)
+    # first check if start pos is valid: if out of board, enemy piece, or empty
+    unless occupied?(start_pos)
+      raise "No piece at #{start_pos}"
+    end
+    current_piece = self[start_pos]
+    unless current_piece.moves.include?(end_pos)
+      raise "Invalid move"
+    end
 
+    # move piece
+    current_piece.pos = end_pos
+
+    # get piece at start pos, and see if moves contain end_pos
+    # raise exception if invalid
+  end
+
+  def in_check?(color)
+    king = find_king(color)
+    pieces.any? do |piece|
+      piece.color != color && piece.moves.include?(king.pos)
+    end
+  end
+
+  def find_king(color)
+    king = pieces.select do |piece|
+      piece.is_a?(King) && piece.color == color
+    end
+    king = king.first
   end
 
   def occupied_by_enemy?(pos, color)
@@ -21,7 +48,7 @@ class Chessboard
   end
 
   def available?(pos)
-    !occupied?(pos) && self.class.in_board?(pos)
+    !occupied?(pos) && Chessboard.in_board?(pos)
   end
 
   def self.in_board?(pos)
