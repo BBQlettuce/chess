@@ -14,18 +14,19 @@ class Piece
   def moves(pos)
   end
 
-  def valid_move(end_pos)
+  def valid_moves
     valid_moves = moves.select do |move|
       !move_into_check?(move)
     end
     @moves = valid_moves
+    valid_moves
   end
 
   def dup_board(board)
     board.map{|el| el.is_a?(Array) ? dup_board(el) : el}
   end
 
-  def move_into_check?(pos)
+  def move_into_check?(end_pos)
     board_dup = dup_board(board)
     board_dup.move(pos, end_pos)
     !board_dup.in_check(color)

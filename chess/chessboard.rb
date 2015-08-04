@@ -31,6 +31,15 @@ class Chessboard
     end
   end
 
+  def checkmate?(color)
+    #in check && no valid moves
+    team_pieces = pieces.select {|piece| piece.color == color}
+    no_valid_moves = team_pieces.all? do |piece|
+      piece.valid_moves.length == 0
+    end
+    in_check?(color) && no_valid_moves
+  end
+
   def find_king(color)
     king = pieces.select do |piece|
       piece.is_a?(King) && piece.color == color
