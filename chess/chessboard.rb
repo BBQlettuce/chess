@@ -1,3 +1,5 @@
+require_relative 'piece'
+
 class Chessboard
 
   attr_reader :board
