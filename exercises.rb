@@ -1,5 +1,5 @@
 class Employee
-  attr_reader :salary, :boss
+  attr_reader :salary, :boss, :name
 
   def initialize(name, title, salary, boss)
     @name = name
@@ -12,13 +12,17 @@ class Employee
     salary * multiplier
   end
 
+  def employees
+    @employees
+  end
+
 end
 
-def Manager < Employee
+class Manager < Employee
 
   attr_accessor :employees
-  def initialize
-    super (name, title, salary, boss = nil)
+  def initialize(name, title, salary, boss = nil)
+    super(name, title, salary, boss = nil)
     @employees = []
   end
 
@@ -27,22 +31,20 @@ def Manager < Employee
   end
 
   def bonus(multiplier)
-    #total salary of all sub-employees * multiplier
-    salaries = []
-    employees.each do |e|
-      salaries << e.salary
-      if e.boss
-    end
+    employee_sum * multiplier
   end
 
   def employee_sum
-    return salary if employees.nil?
     employee_array = employees
     accumulator = 0
     until employee_array.empty?
       current_employee = employee_array.shift
       accumulator += current_employee.salary
-      employee_array += current_employee.employees if current_employee.employees
+      if current_employee.employees
+        employee_array += current_employee.employees
+      end
     end
+    accumulator
   end
+
 end
