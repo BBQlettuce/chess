@@ -1,16 +1,24 @@
 class Piece
 
   attr_reader :board
+  attr_accessor :moves
 
-  def initialize(pos, board)
+  def initialize(pos, color, board)
     @board = board
     @moves = moves
     @pos = pos
+    @color = color
   end
 
   def moves(pos)
 
   end
+
+  def valid_move(pos)
+
+  end
+
+
 
 end
 
@@ -20,7 +28,10 @@ class SlidingPiece < Piece
   DIAGONALS = [[1, 1], [-1, 1], [1, -1], [-1, -1]]
 
   def moves(pos)
+    moves = []
     move_dirs.each do |(x,y)|
+      # until we hit another Piece (value isnt nil) or go off the board
+
       new_x = pos[0] + x
       new_y = pos[1] + y
       until !new_x.between?(0,7) || !new_y.between?(0,7)
@@ -29,6 +40,7 @@ class SlidingPiece < Piece
         new_y += y
       end
     end
+    self.moves = moves
   end
 
 end
