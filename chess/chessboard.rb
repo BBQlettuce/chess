@@ -6,8 +6,8 @@ class Chessboard
 
   def initialize
     @board = Array.new(8) {Array.new(8)}
-    #@pieces = pieces
-
+    @pieces = []
+    generate_new_board
   end
 
   def move(start_pos, end_pos)
@@ -76,6 +76,7 @@ class Chessboard
     place_queens
     place_kings
     color_pieces
+    pass_board_to_piece
   end
 
   def place_pawns
@@ -126,9 +127,11 @@ class Chessboard
     (0..7).each do |col|
       [0, 1].each do |row|
         self[[row, col]].color = :black
+        pieces << self[[row, col]]
       end
       [6, 7].each do |row|
         self[[row, col]].color = :white
+        pieces << self[[row, col]]
       end
     end
   end

@@ -1,30 +1,37 @@
 class Piece
 
-  attr_reader :board
-  attr_accessor :moves, :pos, :color
+  attr_accessor :moves, :pos, :color, :board
 
-  def initialize(pos, color = nil)
-    #@board = board
-    #@moves = moves
+  def initialize(pos)
     @pos = pos
-    @color = color
+    @board = nil
+    #@moves = nil
+    @color = nil
   end
 
   def moves(pos)
-
   end
 
-  def valid_move(pos)
-
+  def valid_move(end_pos, board)
+    valid_moves = moves.select do |move|
+      !move_into_check?(move, board)
+    end
+    @moves = valid_moves
   end
 
-  def move_into_check?(pos)
-
+  def dup_board(board)
+    board.map{|el| el.is_a?(Array) ? dup_board(el) : el}
   end
 
-  def color=(color)
-    @color = color
+  def move_into_check?(pos, board)
+    board_dup = dup_board(board)
+    board_dup.move(pos, end_pos)
+    !board_dup.in_check(color)
   end
+
+  # def color=(color)
+  #   @color = color
+  # end
 
 end
 
@@ -51,7 +58,7 @@ class SlidingPiece < Piece
         moves << next_pos
       end
     end
-    self.moves = moves
+    @moves = moves
   end
 
 end
@@ -73,7 +80,7 @@ class SteppingPiece < Piece
         moves << next_pos
       end
     end
-    self.moves = moves
+    @moves = moves
   end
 
 end
@@ -147,7 +154,7 @@ class Pawn < Piece
         end
       end
     end
-    self.moves = moves
+    @moves = moves
   end
 
 end
