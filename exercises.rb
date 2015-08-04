@@ -27,7 +27,7 @@ class Manager < Employee
   end
 
   def add_employee(employee)
-    self.employees << employee if employee.boss == name
+    self.employees << employee if employee.boss.name == name
   end
 
   def bonus(multiplier)
