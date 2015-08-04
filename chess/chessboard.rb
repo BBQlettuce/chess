@@ -17,11 +17,20 @@ class Chessboard
       raise "No piece at #{start_pos}"
     end
     current_piece = self[start_pos]
-    unless current_piece.moves.include?(end_pos)
+    unless current_piece.valid_moves.include?(end_pos)
       raise "Invalid move"
     end
     # move piece
+    if occupied_by_enemy?(end_pos, current_piece.color)
+      kill_piece(end_pos)
+    end
     current_piece.pos = end_pos
+
+  end
+
+  def kill_piece(pos)
+    piece = self[pos]
+    pieces.delete(piece)
   end
 
   def in_check?(color)
