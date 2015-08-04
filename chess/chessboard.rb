@@ -81,12 +81,56 @@ class Chessboard
   def place_pawns
     [1,6].each do |row|
       (0..7).each do |col|
-        board[[row,col]] = Pawn.new([row,col])
+        self[[row, col]] = Pawn.new([row,col])
       end
     end
   end
 
+  def place_rooks
+    [0, 7].each do |row|
+      [0, 7].each do |col|
+        self[[row, col]] = Rook.new([row, col])
+      end
+    end
+  end
 
+  def place_knights
+    [0, 7].each do |row|
+      [1, 6].each do |col|
+        self[[row, col]] = Knight.new([row, col])
+      end
+    end
+  end
 
+  def place_bishops
+    [0, 7].each do |row|
+      [2, 5].each do |col|
+        self[[row, col]] = Bishop.new([row, col])
+      end
+    end
+  end
+
+  def place_queens
+    [0, 7].each do |row|
+      self[[row, 3]] = Queen.new([row,  3])
+    end
+  end
+
+  def place_kings
+    [0, 7].each do |row|
+      self[[row, 4]] = King.new([row, 4])
+    end
+  end
+
+  def color_pieces
+    (0..7).each do |col|
+      [0, 1].each do |row|
+        self[[row, col]].color = :black
+      end
+      [6, 7].each do |row|
+        self[[row, col]].color = :white
+      end
+    end
+  end
 
 end

@@ -1,13 +1,13 @@
 class Piece
 
-  attr_reader :board, :color
-  attr_accessor :moves, :pos
+  attr_reader :board
+  attr_accessor :moves, :pos, :color
 
-  def initialize(pos)
+  def initialize(pos, color = nil)
     #@board = board
     #@moves = moves
     @pos = pos
-    #@color = color
+    @color = color
   end
 
   def moves(pos)
@@ -22,6 +22,9 @@ class Piece
 
   end
 
+  def color=(color)
+    @color = color
+  end
 
 end
 
@@ -85,7 +88,9 @@ class Bishop < SlidingPiece
 end
 
 class Rook < SlidingPiece
-
+  # def initialize(pos, color = nil)
+  #   super(pos, color)
+  # end
   def move_dirs
     VERTICALS
   end
