@@ -31,7 +31,8 @@ end
 class Bishop < SlidingPiece
 
   def appearance
-    "B"
+    #"B"
+    "\u{2657}"
   end
 
   def move_dirs
@@ -43,7 +44,8 @@ end
 class Rook < SlidingPiece
 
   def appearance
-    "R"
+    #"R"
+    "\u{2656}"
   end
 
   def move_dirs
@@ -55,7 +57,8 @@ end
 class Queen < SlidingPiece
 
   def appearance
-    "Q"
+    #"Q"
+    "\u{2655}"
   end
 
   def move_dirs

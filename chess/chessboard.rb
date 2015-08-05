@@ -138,11 +138,11 @@ class Chessboard
   def generate_new_board
     #populates board with pieces
     place_pawns
-    place_rooks
-    place_knights
-    place_bishops
-    place_queens
-    place_kings
+    place_piece(Rook, [0,7])
+    place_piece(Knight, [1,6])
+    place_piece(Bishop, [2,5])
+    place_piece(Queen, [3])
+    place_piece(King, [4])
     color_pieces
   end
 
@@ -154,39 +154,11 @@ class Chessboard
     end
   end
 
-  def place_rooks
+  def place_piece(type_of_piece, spots)
     [0, 7].each do |row|
-      [0, 7].each do |col|
-        self[[row, col]] = Rook.new([row, col])
+      spots.each do |col|
+        self[[row, col]] = type_of_piece.new([row, col])
       end
-    end
-  end
-
-  def place_knights
-    [0, 7].each do |row|
-      [1, 6].each do |col|
-        self[[row, col]] = Knight.new([row, col])
-      end
-    end
-  end
-
-  def place_bishops
-    [0, 7].each do |row|
-      [2, 5].each do |col|
-        self[[row, col]] = Bishop.new([row, col])
-      end
-    end
-  end
-
-  def place_queens
-    [0, 7].each do |row|
-      self[[row, 3]] = Queen.new([row,  3])
-    end
-  end
-
-  def place_kings
-    [0, 7].each do |row|
-      self[[row, 4]] = King.new([row, 4])
     end
   end
 
@@ -202,10 +174,5 @@ class Chessboard
       end
     end
   end
-
-  # def pass_board_to_pieces
-  #   pieces.each do |piece|
-  #     piece.board = self
-  #   end
-  # end
+  
 end

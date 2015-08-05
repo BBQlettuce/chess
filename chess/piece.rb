@@ -55,7 +55,8 @@ end
 class Pawn < Piece
 
   def appearance
-    "P"
+    #"P"
+    "\u{2659}"
   end
 
   DIAG_MOVES = [1, -1]

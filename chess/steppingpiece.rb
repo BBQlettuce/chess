@@ -26,7 +26,8 @@ end
 class Knight < SteppingPiece
 
   def appearance
-    "N"
+    #"N"
+    "\u{2658}"
   end
 
   def move_dirs
@@ -37,7 +38,8 @@ end
 class King < SteppingPiece
 
   def appearance
-    "K"
+    #"K"
+    "\u{2654}"
   end
 
   def move_dirs
