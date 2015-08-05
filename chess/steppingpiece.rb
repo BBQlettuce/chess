@@ -1,8 +1,7 @@
-
 require_relative 'piece'
 
 class SteppingPiece < Piece
-  
+
   KNIGHT_STEPS = [
     [-1, -2], [-1, 2], [1, -2], [1, 2],
     [-2, -1], [-2, 1], [2, -1], [2, 1]]

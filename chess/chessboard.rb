@@ -1,4 +1,5 @@
-require_relative 'piece'
+require_relative 'slidingpiece'
+require_relative 'steppingpiece'
 
 class Chessboard
 
