@@ -15,19 +15,24 @@ class Piece
   #
   # end
 
-  def valid_moves
+  def valid_moves(board)
     valid_moves = moves.select do |move|
-      !move_into_check?(move)
+      !move_into_check?(move, board)
     end
     @moves = valid_moves
     valid_moves
   end
 
+  #to be changed
   def dup_board(board)
-    board.board.map { |el| el.is_a?(Array) ? dup_board(el) : el }
+    dup_pieces = []
+    board.pieces.each do |piece|
+      dup_pieces << piece.dup
+    end
+    Chessboard.new(dup_pieces)
   end
 
-  def move_into_check?(end_pos)
+  def move_into_check?(end_pos, board)
     board_dup = dup_board(board)
     board_dup.move(pos, end_pos)
     !board_dup.in_check(color)
