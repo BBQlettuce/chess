@@ -50,6 +50,10 @@ class Chessboard
     in_check?(color) && no_valid_moves
   end
 
+  def over?
+    checkmate(:black) || checkmate?(:white)
+  end
+
   def find_king(color)
     king = pieces.select do |piece|
       piece.is_a?(King) && piece.color == color
