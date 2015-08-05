@@ -18,7 +18,6 @@ class Game
       board.render
       begin
         start_pos, end_pos = current_player.play_turn
-        #if board[start_pos].color == current_player.color
         board.move(start_pos, end_pos, current_player.color)
       rescue ArgumentError => e
         puts e.message
@@ -26,6 +25,7 @@ class Game
       end
       switch_player
     end
+    board.render
     switch_player
     puts "Congratulations #{current_player.name}! You won!"
 
@@ -38,47 +38,44 @@ class Game
 end
 
 class HumanPlayer
+
+  EASY_COLS = ("a".."h").to_a
+  EASY_ROWS = ["8", "7", "6", "5", "4", "3", "2", "1"]
+
   attr_reader :name
   attr_accessor :color
 
   def initialize(name)
     @name = name
-    #@color = nil
   end
 
   def play_turn
     begin
     start_pos = prompt_start
-    rescue
-      puts "Please enter a valid position"
-      retry
-    end
-
-    begin
     end_pos = prompt_end
     rescue
       puts "Please enter a valid position"
       retry
     end
-
-    #   board.move(start_pos, end_pos)
-    # rescue ArgumentError => e
-    #   puts e.message
-    #   retry
     [start_pos, end_pos]
-
   end
 
   def prompt_start
-    puts "Make your move. Please enter the piece you want to move: "
-    start_input = gets.chomp.split(",")
-    start_pos = start_input.map { |el| Integer(el) }
+    puts "#{name}'s turn! Make your move. Please enter the piece you want to move: "
+    start_input = gets.chomp.split("")
+    col = EASY_COLS.index(start_input[0])
+    row = EASY_ROWS.index(start_input[1])
+    start_pos = [row, col]
+    start_pos.map { |el| Integer(el) }
   end
 
   def prompt_end
-    puts "Make your move. Please enter where you want to move to: "
-    end_input = gets.chomp.split(",")
-    end_pos = end_input.map { |el| Integer(el) }
+    puts "Please enter where you want to move to: "
+    end_input = gets.chomp.split("")
+    col = EASY_COLS.index(end_input[0])
+    row = EASY_ROWS.index(end_input[1])
+    end_pos = [row, col]
+    end_pos.map { |el| Integer(el) }
   end
 
 end
