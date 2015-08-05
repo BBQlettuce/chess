@@ -35,7 +35,9 @@ class Piece
 
   def self.dup_piece(piece)
     dup_position = piece.pos.dup
-    piece.class.new(dup_position)
+    new_piece = piece.class.new(dup_position)
+    new_piece.color = piece.color
+    new_piece
   end
 
   def move_into_check?(end_pos, board)

@@ -17,7 +17,9 @@ class Chessboard
       raise ArgumentError.new "No piece at #{start_pos}"
     end
     current_piece = self[start_pos]
-    unless current_piece.valid_moves(self).include?(end_pos)
+    # debugger
+    current_piece_moves = current_piece.find_valid_moves(self)
+    unless current_piece_moves.include?(end_pos)
       raise ArgumentError.new "Invalid move."
     end
     # move piece
@@ -25,7 +27,7 @@ class Chessboard
       kill_piece(end_pos)
     end
     current_piece.pos = end_pos
-
+    #self[end_pos] = current_piece
   end
 
   def kill_piece(pos)
@@ -88,10 +90,12 @@ class Chessboard
   end
 
   def occupied?(pos)
-    !self[pos].nil?
+  #  debugger if pos.nil?
+    Chessboard.in_board?(pos) && !self[pos].nil?
   end
 
   def [](pos)
+
     row, col = pos
     board[row][col]
   end

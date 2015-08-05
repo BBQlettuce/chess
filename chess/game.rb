@@ -54,12 +54,11 @@ class HumanPlayer
       retry
     end
 
-    begin
-      board.move(start_pos, end_pos)
-    rescue ArgumentError => e
-      puts e.message
-      retry
-    end
+    #   board.move(start_pos, end_pos)
+    # rescue ArgumentError => e
+    #   puts e.message
+    #   retry
+    [start_pos, end_pos]
 
   end
 
@@ -72,7 +71,7 @@ class HumanPlayer
   def prompt_end
     puts "Make your move. Please enter where you want to move to: "
     end_input = gets.chomp.split(",")
-    send_pos = start_input.map(&:to_i)
+    end_pos = end_input.map(&:to_i)
   end
 
 end
