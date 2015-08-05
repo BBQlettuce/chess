@@ -76,3 +76,10 @@ class HumanPlayer
   end
 
 end
+
+if __FILE__ == $PROGRAM_NAME
+  p1 = HumanPlayer.new("A")
+  p2 = HumanPlayer.new("B")
+  game = Game.new(p1, p2)
+  game.play
+end
