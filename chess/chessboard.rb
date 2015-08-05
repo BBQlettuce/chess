@@ -1,6 +1,6 @@
 require_relative 'slidingpiece'
 require_relative 'steppingpiece'
-
+require 'byebug'
 class Chessboard
 
   attr_accessor :board, :pieces
@@ -40,8 +40,17 @@ class Chessboard
     end
   end
 
+  def make_fake_move(start_pos, end_pos)
+    current_piece = self[start_pos]
+    if occupied_by_enemy?(end_pos, current_piece.color)
+      kill_piece(end_pos)
+    end
+    current_piece.pos = end_pos
+  end
+
   def in_checkmate?(color)
     #in check && no valid moves
+
     team_pieces = pieces.select {|piece| piece.color == color}
     no_valid_moves = team_pieces.all? do |piece|
       piece.valid_moves(self).length == 0

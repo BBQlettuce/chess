@@ -34,8 +34,8 @@ class Piece
 
   def move_into_check?(end_pos, board)
     board_dup = dup_board(board)
-    board_dup.move(pos, end_pos)
-    !board_dup.in_check(color)
+    board_dup.make_fake_move(pos, end_pos)
+    !board_dup.in_check?(color)
   end
 
   def to_s
@@ -79,7 +79,7 @@ class Pawn < Piece
         end
       end
     end
-    @moves = moves
+    moves
   end
 
 end

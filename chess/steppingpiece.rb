@@ -18,7 +18,7 @@ class SteppingPiece < Piece
         moves << next_pos
       end
     end
-    @moves = moves
+    moves
   end
 
 end
