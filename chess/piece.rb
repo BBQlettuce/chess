@@ -2,40 +2,46 @@ require 'colorize'
 
 class Piece
 
-  attr_accessor :moves, :pos, :color, :board
+  attr_accessor :moves, :pos, :color, :board, :valid_moves
 
   def initialize(pos)
     @pos = pos
     #@board = nil
     #@moves = nil
     @color = nil
+    @valid_moves = nil
   end
 
   # def moves(pos)
   #
   # end
 
-  def valid_moves(board)
+  def find_valid_moves(board)
     valid_moves = moves(board).select do |move|
       !move_into_check?(move, board)
     end
     #@moves = valid_moves
-    valid_moves
+    self.valid_moves = valid_moves
   end
 
   #to be changed
   def dup_board(board)
     dup_pieces = []
     board.pieces.each do |piece|
-      dup_pieces << piece.dup
+      dup_pieces << self.class.dup_piece(piece)
     end
     Chessboard.new(dup_pieces)
+  end
+
+  def self.dup_piece(piece)
+    dup_position = piece.pos.dup
+    piece.class.new(dup_position)
   end
 
   def move_into_check?(end_pos, board)
     board_dup = dup_board(board)
     board_dup.make_fake_move(pos, end_pos)
-    !board_dup.in_check?(color)
+    board_dup.in_check?(color)
   end
 
   def to_s

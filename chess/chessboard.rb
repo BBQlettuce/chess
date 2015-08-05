@@ -35,9 +35,7 @@ class Chessboard
 
   def in_check?(color)
     king = find_king(color)
-    pieces.any? do |piece|
-      piece.color != color && piece.valid_moves(self).include?(king.pos)
-    end
+    pieces.any? { |piece| piece.moves(self).include?(king.pos) }
   end
 
   def make_fake_move(start_pos, end_pos)
@@ -52,8 +50,9 @@ class Chessboard
     #in check && no valid moves
 
     team_pieces = pieces.select {|piece| piece.color == color}
+    team_pieces.each { |piece| piece.find_valid_moves(self)}
     no_valid_moves = team_pieces.all? do |piece|
-      piece.valid_moves(self).length == 0
+      piece.valid_moves.empty?
     end
     in_check?(color) && no_valid_moves
   end
@@ -74,15 +73,18 @@ class Chessboard
   end
 
   def occupied_by_enemy?(pos, color)
+    #debugger
     occupied?(pos) && self[pos].color != color
   end
 
   def available?(pos)
-    !occupied?(pos) && Chessboard.in_board?(pos)
+    # debugger
+    Chessboard.in_board?(pos) && !occupied?(pos)
   end
 
   def self.in_board?(pos)
-    pos.all?{|position| position.between?(0, 7)}
+    #return false if pos.nil?
+    pos.all? { |position| position.between?(0, 7) }
   end
 
   def occupied?(pos)
