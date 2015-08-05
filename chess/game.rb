@@ -19,6 +19,9 @@ class Game
       current_player.play_turn
       switch_player
     end
+    switch_player
+    puts "Congratulations #{current_player.name}! You won!"
+
   end
 
   def switch_player
@@ -41,18 +44,22 @@ class HumanPlayer
     start_pos = prompt_start
     rescue
       puts "Please enter a valid position"
-    retry
+      retry
     end
 
     begin
     end_pos = prompt_end
     rescue
       puts "Please enter a valid position"
-    retry
+      retry
     end
 
-    board.move(start_pos, end_pos)
-
+    begin
+      board.move(start_pos, end_pos)
+    rescue ArgumentError => e
+      puts e.message
+      retry
+    end
 
   end
 

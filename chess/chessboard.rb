@@ -15,11 +15,11 @@ class Chessboard
   def move(start_pos, end_pos)
     # first check if start pos is valid: if out of board, enemy piece, or empty
     unless occupied?(start_pos)
-      raise "No piece at #{start_pos}"
+      raise ArgumentError.new "No piece at #{start_pos}"
     end
     current_piece = self[start_pos]
     unless current_piece.valid_moves.include?(end_pos)
-      raise "Invalid move"
+      raise ArgumentError.new "Invalid move."
     end
     # move piece
     if occupied_by_enemy?(end_pos, current_piece.color)
@@ -41,7 +41,7 @@ class Chessboard
     end
   end
 
-  def checkmate?(color)
+  def in_checkmate?(color)
     #in check && no valid moves
     team_pieces = pieces.select {|piece| piece.color == color}
     no_valid_moves = team_pieces.all? do |piece|
@@ -51,7 +51,11 @@ class Chessboard
   end
 
   def over?
-    checkmate(:black) || checkmate?(:white)
+    in_checkmate?(:black) || in_checkmate?(:white)
+  end
+
+  def winner
+    in_checkmate?(:black) ? :white : :black if over?
   end
 
   def find_king(color)
