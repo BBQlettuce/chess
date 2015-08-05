@@ -5,11 +5,10 @@ class Chessboard
 
   attr_accessor :board, :pieces
 
-  def initialize
+  def initialize(pieces = [])
     @board = Array.new(8) {Array.new(8)}
-    @pieces = []
-    generate_new_board
-    pass_board_to_pieces
+    @pieces = pieces
+    generate_board(pieces)
   end
 
   def move(start_pos, end_pos)
@@ -107,6 +106,17 @@ class Chessboard
 
   private
 
+  def generate_board(pieces)
+    unless pieces.empty?
+      pieces.each do |piece|
+        board_pos = piece.pos
+        self[board_pos] = piece
+      end
+    else
+      generate_new_board
+    end
+  end
+
   def generate_new_board
     #populates board with pieces
     place_pawns
@@ -175,9 +185,9 @@ class Chessboard
     end
   end
 
-  def pass_board_to_pieces
-    pieces.each do |piece|
-      piece.board = self
-    end
-  end
+  # def pass_board_to_pieces
+  #   pieces.each do |piece|
+  #     piece.board = self
+  #   end
+  # end
 end
