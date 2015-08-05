@@ -8,7 +8,7 @@ class SteppingPiece < Piece
   KING_STEPS =
     [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
 
-  def moves(pos)
+  def moves(board)
     moves = []
     move_dirs.each do |(x,y)|
       new_x = pos[0] + x

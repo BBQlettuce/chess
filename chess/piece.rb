@@ -16,10 +16,10 @@ class Piece
   # end
 
   def valid_moves(board)
-    valid_moves = moves.select do |move|
+    valid_moves = moves(board).select do |move|
       !move_into_check?(move, board)
     end
-    @moves = valid_moves
+    #@moves = valid_moves
     valid_moves
   end
 
@@ -53,7 +53,7 @@ class Pawn < Piece
   DIAG_MOVES = [1, -1]
   WHITE_DIR = -1
   BLACK_DIR = 1
-  def moves
+  def moves(board)
     moves = []
     case color
     when :white

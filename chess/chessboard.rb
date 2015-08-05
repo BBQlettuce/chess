@@ -17,7 +17,7 @@ class Chessboard
       raise ArgumentError.new "No piece at #{start_pos}"
     end
     current_piece = self[start_pos]
-    unless current_piece.valid_moves.include?(end_pos)
+    unless current_piece.valid_moves(self).include?(end_pos)
       raise ArgumentError.new "Invalid move."
     end
     # move piece
@@ -36,7 +36,7 @@ class Chessboard
   def in_check?(color)
     king = find_king(color)
     pieces.any? do |piece|
-      piece.color != color && piece.moves.include?(king.pos)
+      piece.color != color && piece.valid_moves(self).include?(king.pos)
     end
   end
 
@@ -44,7 +44,7 @@ class Chessboard
     #in check && no valid moves
     team_pieces = pieces.select {|piece| piece.color == color}
     no_valid_moves = team_pieces.all? do |piece|
-      piece.valid_moves.length == 0
+      piece.valid_moves(self).length == 0
     end
     in_check?(color) && no_valid_moves
   end
