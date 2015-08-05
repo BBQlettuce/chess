@@ -61,6 +61,7 @@ class Pawn < Piece
   DIAG_MOVES = [1, -1]
   WHITE_DIR = -1
   BLACK_DIR = 1
+
   def moves(board)
     moves = []
     case color
@@ -68,32 +69,35 @@ class Pawn < Piece
       if pos[0] == 6
         moves << [4, pos[1]] if board.available?([4, pos[1]])
       end
-      if board.available?([pos[0] + WHITE_DIR, pos[1]])
-        moves << [pos[0] + WHITE_DIR, pos[1]]
-      end
-      DIAG_MOVES.each do |diag|
-        diag_move = [pos[0] + WHITE_DIR, pos[1] + diag]
-        if Chessboard.in_board?(diag_move) &&
-            board.occupied_by_enemy?(diag_move, color)
-          moves << diag_move
-        end
-      end
+      moves + straight_moves(pos, WHITE_DIR, board) +
+      diag_moves(pos, WHITE_DIR, board)
     else
       if pos[0] == 1
         moves << [3, pos[1]] if board.available?([3, pos[1]])
       end
-      if board.available?([pos[0] + BLACK_DIR, pos[1]])
-        moves << [pos[0] + BLACK_DIR, pos[1]]
-      end
-      DIAG_MOVES.each do |diag|
-        diag_move = [pos[0] + BLACK_DIR, pos[1] + diag]
-        if Chessboard.in_board?(diag_move) &&
-            board.occupied_by_enemy?(diag_move, color)
-          moves << diag_move
-        end
-      end
+      moves + straight_moves(pos, BLACK_DIR, board) +
+      diag_moves(pos, BLACK_DIR, board)
+    end
+  end
+
+  def straight_moves(pos, direction, board)
+    moves = []
+    if board.available?([pos[0] + direction, pos[1]])
+      moves << [pos[0] + direction, pos[1]]
     end
     moves
+  end
+
+  def diag_moves(pos, direction, board)
+    moves = []
+    DIAG_MOVES.each do |diag|
+      diag_move = [pos[0] + direction, pos[1] + diag]
+      if Chessboard.in_board?(diag_move) &&
+          board.occupied_by_enemy?(diag_move, color)
+        moves << diag_move
+      end
+    end
+   moves
   end
 
 end
