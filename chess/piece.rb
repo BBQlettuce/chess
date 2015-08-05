@@ -65,6 +65,9 @@ class Pawn < Piece
     moves = []
     case color
     when :white
+      if pos[0] == 6
+        moves << [4, pos[1]] if board.available?([4, pos[1]])
+      end
       if board.available?([pos[0] + WHITE_DIR, pos[1]])
         moves << [pos[0] + WHITE_DIR, pos[1]]
       end
@@ -76,6 +79,9 @@ class Pawn < Piece
         end
       end
     else
+      if pos[0] == 1
+        moves << [3, pos[1]] if board.available?([3, pos[1]])
+      end
       if board.available?([pos[0] + BLACK_DIR, pos[1]])
         moves << [pos[0] + BLACK_DIR, pos[1]]
       end

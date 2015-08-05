@@ -11,13 +11,15 @@ class Chessboard
     generate_board(pieces)
   end
 
-  def move(start_pos, end_pos)
+  def move(start_pos, end_pos, color)
     # first check if start pos is valid: if out of board, enemy piece, or empty
     unless occupied?(start_pos)
       raise ArgumentError.new "No piece at #{start_pos}"
     end
     current_piece = self[start_pos]
-    # debugger
+    unless current_piece.color == color
+      raise ArgumentError.new "You can't move your opponent's piece!"
+    end
     current_piece_moves = current_piece.find_valid_moves(self)
     unless current_piece_moves.include?(end_pos)
       raise ArgumentError.new "Invalid move."
@@ -26,8 +28,9 @@ class Chessboard
     if occupied_by_enemy?(end_pos, current_piece.color)
       kill_piece(end_pos)
     end
+    self[start_pos] = nil
     current_piece.pos = end_pos
-    #self[end_pos] = current_piece
+    self[end_pos] = current_piece
   end
 
   def kill_piece(pos)

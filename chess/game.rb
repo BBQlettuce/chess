@@ -16,7 +16,14 @@ class Game
   def play
     until board.over?
       board.render
-      current_player.play_turn
+      begin
+        start_pos, end_pos = current_player.play_turn
+        #if board[start_pos].color == current_player.color
+        board.move(start_pos, end_pos, current_player.color)
+      rescue ArgumentError => e
+        puts e.message
+        retry
+      end
       switch_player
     end
     switch_player
@@ -25,7 +32,7 @@ class Game
   end
 
   def switch_player
-    current_player = (current_player == player1) ? player2 : player1
+    self.current_player = (current_player == player1) ? player2 : player1
   end
 
 end
@@ -65,13 +72,13 @@ class HumanPlayer
   def prompt_start
     puts "Make your move. Please enter the piece you want to move: "
     start_input = gets.chomp.split(",")
-    start_pos = start_input.map(&:to_i)
+    start_pos = start_input.map { |el| Integer(el) }
   end
 
   def prompt_end
     puts "Make your move. Please enter where you want to move to: "
     end_input = gets.chomp.split(",")
-    end_pos = end_input.map(&:to_i)
+    end_pos = end_input.map { |el| Integer(el) }
   end
 
 end
