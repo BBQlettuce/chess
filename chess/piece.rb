@@ -24,7 +24,7 @@ class Piece
   end
 
   def dup_board(board)
-    board.map{|el| el.is_a?(Array) ? dup_board(el) : el}
+    board.board.map { |el| el.is_a?(Array) ? dup_board(el) : el }
   end
 
   def move_into_check?(end_pos)
@@ -51,7 +51,7 @@ class Pawn < Piece
   def moves
     moves = []
     case color
-    when white
+    when :white
       if board.available?([pos[0] + WHITE_DIR, pos[1]])
         moves << [pos[0] + WHITE_DIR, pos[1]]
       end

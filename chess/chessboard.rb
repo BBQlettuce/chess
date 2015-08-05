@@ -66,7 +66,7 @@ class Chessboard
   end
 
   def occupied_by_enemy?(pos, color)
-    occupied?(pos) && self[[pos]].color != color
+    occupied?(pos) && self[pos].color != color
   end
 
   def available?(pos)
@@ -78,7 +78,7 @@ class Chessboard
   end
 
   def occupied?(pos)
-    !board[pos].nil?
+    !self[pos].nil?
   end
 
   def [](pos)
@@ -180,8 +180,4 @@ class Chessboard
       piece.board = self
     end
   end
-end
-
-if __FILE__ == $PROGRAM_NAME
-
 end

@@ -5,7 +5,7 @@ class SlidingPiece < Piece
   VERTICALS = [[1, 0], [-1, 0], [0, 1], [0, -1]]
   DIAGONALS = [[1, 1], [-1, 1], [1, -1], [-1, -1]]
 
-  def moves(pos)
+  def moves
     moves = []
     move_dirs.each do |(x,y)|
       # until we hit another Piece (value isnt nil) or go off the board
